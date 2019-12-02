@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Sipariş Listesi";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script type="text/javascript">
+    function Search()
+    {
+        var orderno = $("#orderno").val();
+        var customername = $("#customername").val();
+        var startdate = $("#startdate").val();
+        var enddate = $("#enddate").val();
+
+        var dataObject = {
+            'orderno' : orderno,
+            'customername' : customername,
+            'startDate' : startdate,
+            'endDate' : enddate
+        };
+
+        $.ajax({
+            type : 'POST',
+            url: '/Home/SearchOrder',
+            dataType: 'json',
+            data: dataObject,
+            success: function (result)
+            {
+                if(result == -1)
+                {
+                    alert("Kayıt bulunamadı.");
+                }
+                else{
+                    $.each(result, function(key, value){
+                        var markup = "<tr><td><label>"+value.nameSurname+"</label></td>";
+                        markup+="<td><label>"+value.orderNo+"</label></td>";
+                        markup+="<td><label>"+value.orderDate+"</label></td>";
+                        markup+="<td><label>"+value.totalPrice+"</label></td>"; 
+                        
+                        tableBody = $("#orderItemTable"); 
+                        tableBody.append(markup); 
+                    });
+                    
+                }
+            }
+        });
+    }
+</script>
+<!DOCTYPE html>
+<html>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2 mb-3">
+                        <label>Sipariş No</label>
+                        <input type="text" class="form-control" id="orderno">
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label>Müşteri</label>
+                        <input type="text" class="form-control" id="customername">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Başlangıç Tarihi:</label>
+                        <input type="date" class="form-control" id="startdate">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Bitiş Tarihi:</label>
+                        <input type="date" class="form-control" id="enddate">
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <button class="btn btn-primary" onclick="Search()" style="margin-top:31px">Ara</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:20px">
+            <table class="table table-striped" id="orderItemTable">
+                <thead>
+                    <tr>
+                        <th>Müşteri Ad/Soyad</th>
+                        <th>Sipariş No</th>
+                        <th>Sipariş Tarihi</th>
+                        <th>Toplam Fiyat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
