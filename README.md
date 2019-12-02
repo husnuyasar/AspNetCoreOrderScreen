@@ -25,3 +25,4 @@
 * product : Ürün bilgilerinin olduğu tablodur.
 * warehouse : Depo bilgilerinin olduğu tablodur.
 * orders : Yapılan siparişlerin bilgisinin tutulduğu tablodur.
+* sql yedek dosyası "sql backup" klasörünün altındadır.
